@@ -5,7 +5,7 @@
 
 // Logo will be replaced with some ASCII art
 const char *logo = 
-    "< GEMINI-3DS >";
+    "://Gemini3DS";
 
 static const char *options[] = {"Gemini", "API Key", "Settings"};
 static int selectedOption = 0;
