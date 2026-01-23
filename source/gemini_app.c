@@ -46,15 +46,7 @@ void GeminiApp_Update(u32 kDown, const char *apiKey) {
         if (R_OpenKeyboard("Ask Gemini...", promtBuffer, MAX_PROMT_LEN)) {
             isThinking = true;
             
-
             ForceDrawStatus("://Thinking...");
-            /*
-            R_BeginFrame();
-            R_SetTarget(SCREEN_TOP);
-            R_ClearScreen(SCREEN_TOP, COLOR_BACKGROUND);
-            R_DrawText(10, 10, 1, "://Thinking...", COLOR_TEXT_HIGHLIGHT);
-            R_EndFrame();
-            */
 
             Net_QueryGemini(apiKey, promtBuffer, responseText, MAX_RESPONSE_LEN);
             R_ClearText(responseText);
@@ -66,39 +58,28 @@ void GeminiApp_Update(u32 kDown, const char *apiKey) {
 
     if (Mic_IsRecording())  {
         Mic_Update();
-
         ForceDrawStatus("://Recording...");
-        /*
-        R_BeginFrame();
-        R_SetTarget(SCREEN_TOP);
-        R_ClearScreen(SCREEN_TOP, COLOR_BACKGROUND);
-        R_DrawText(10, 10, 1, "://Recording...", COLOR_TEXT_HIGHLIGHT);
-        R_EndFrame(); 
-        */
     }
 
     if (kUp & KEY_Y) {
         Mic_StopRecording();
-        isThinking = true;
 
-        ForceDrawStatus("://Sending audio...");
-        /*
-        R_BeginFrame();
-        R_SetTarget(SCREEN_TOP);
-        R_ClearScreen(SCREEN_TOP, COLOR_BACKGROUND);
-        R_DrawText(10, 10, 1, "://Sending audio...", COLOR_TEXT_HIGHLIGHT);
-        R_EndFrame(); 
-        */
+        /* Check if audio is at least ~= 0.5s */
+        if (Mic_GetWavSize() > 16300) { 
+            isThinking = true;
 
-        const char *voicePrompt = 
-        "Roleplay as a helpful voice assistant on a Nintendo 3DS. "
-        "The attached audio is a direct question or statement from the user. "
-        "Do not describe the audio. Do not transcribe what was said. "
-        "Listen to the audio and reply directly and naturally to the user.";
+            ForceDrawStatus("://Sending audio...");
 
-        Net_QueryGeminiAudio(apiKey, voicePrompt, Mic_GetWavBuffer(), Mic_GetWavSize(), responseText, MAX_RESPONSE_LEN);
-        R_ClearText(responseText);
-        isThinking = false;
+            const char *voicePrompt = 
+            "Roleplay as a helpful voice assistant on a Nintendo 3DS. "
+            "The attached audio is a direct question or statement from the user. "
+            "Do not describe the audio. Do not transcribe what was said. "
+            "Listen to the audio and reply directly and naturally to the user.";
+
+            Net_QueryGeminiAudio(apiKey, voicePrompt, Mic_GetWavBuffer(), Mic_GetWavSize(), responseText, MAX_RESPONSE_LEN);
+            R_ClearText(responseText);
+            isThinking = false;
+        }
     }
 }
 
@@ -114,7 +95,7 @@ void GeminiApp_Draw() {
         R_DrawText(10, 10, 1, "://Recording...", COLOR_TEXT_HIGHLIGHT);
 
         char audioSize[32];
-        snprintf(audioSize, 32, "%lu MB", Mic_GetWavSize());
+        snprintf(audioSize, 32, "%lu Bytes", Mic_GetWavSize());
         R_DrawText(10, 30, 0.6f, audioSize, COLOR_TEXT_NORMAL);
     }
     else {
@@ -134,23 +115,6 @@ void GeminiApp_Draw() {
             R_DrawRectSolid(SCREEN_TOP_WIDTH - 5.0f, barPos, 0.5f, 4.0f, barHeight, COLOR_SCROLL_BAR);
         }
     }
-
-    /*
-    float startY = 10.0f;
-    float drawY = startY - scrollY;
-    R_DrawTextWrapped(10.0f, drawY, SCREEN_TOP_WIDTH - 20.0f, responseText, COLOR_TEXT_NORMAL, &totalTextHeight); 
-
-    // Draw side bar
-    if (totalTextHeight > SCREEN_TOP_HEIGHT) {
-        float barHeight = (SCREEN_TOP_HEIGHT / totalTextHeight) * SCREEN_TOP_HEIGHT;
-        if (barHeight < 20) barHeight = 20;
-
-        float barPos = (scrollY / (totalTextHeight - SCREEN_TOP_HEIGHT)) * (SCREEN_TOP_HEIGHT - barHeight);
-
-        R_SetTarget(SCREEN_TOP);
-        R_DrawRectSolid(SCREEN_TOP_WIDTH - 5.0f, barPos, 0.5f, 4.0f, barHeight, COLOR_SCROLL_BAR);
-    }
-    */
 
     /* Bottom screen */
     R_SetTarget(SCREEN_BOTTOM);
