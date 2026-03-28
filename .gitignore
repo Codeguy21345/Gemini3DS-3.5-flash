@@ -3,3 +3,4 @@ build/
 *.cia
 *.smdh
 *.elf
+*.lst
