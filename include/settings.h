@@ -11,8 +11,8 @@ typedef void (*toStringFunc)(SettingOption *self, char *buffer, size_t size);
 typedef void (*EditFunc)(SettingOption *self, int delta);
 
 typedef enum {
-    MODEL_2_5_FLASH=0,
-    MODEL_2_5_FLASH_LITE,
+    MODEL_3_5_FLASH=0,
+    MODEL_3_5_THINKING,
     MODEL_COUNT
 } GeminiModel;
 
