@@ -16,7 +16,8 @@ enum {OPT_MODEL=0, OPT_TEMPERATURE, OPT_MAXTOKENS};
 
 const static char *API_MODEL_IDS[] = {
     "gemini-3.5-flash",
-    "gemini-3.5-thinking",
+    "gemini-2.5-flash",
+    "gemini-2.5-thinking",
 };
 
 const static char *settingDescriptions[] = {
