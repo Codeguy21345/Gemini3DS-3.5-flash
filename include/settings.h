@@ -13,7 +13,7 @@ typedef void (*EditFunc)(SettingOption *self, int delta);
 typedef enum {
     MODEL_3_5_FLASH=0,
     MODEL_2_5_FLASH,
-    MODEL_2_5_THINKING,
+    MODEL_3_1_FLASH_LITE,
     MODEL_COUNT
 } GeminiModel;
 
