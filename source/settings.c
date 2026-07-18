@@ -16,8 +16,9 @@ enum {OPT_MODEL=0, OPT_TEMPERATURE, OPT_MAXTOKENS};
 
 const static char *API_MODEL_IDS[] = {
     "gemini-3.5-flash",
-    "gemini-2.5-flash",
     "gemini-3.1-flash-lite",
+    "gemini-2.5-flash",
+    "gemini-2.5-flash-lite",
 };
 
 const static char *settingDescriptions[] = {
@@ -81,8 +82,10 @@ void BoolToString(SettingOption *opt, char *buf, size_t n) {
 
 void ModelToString(SettingOption *opt, char *buf, size_t n) {
     const char *modelNames[] = {
+        "Flash 3.5",
+        "Flash Lite 3.5",
         "Flash 2.5",
-        "Flash Lite 2.5",
+        "Flash Lite 2.5"
     };
     snprintf(buf, n, "%s", modelNames[opt->value.iVal]);
 }
