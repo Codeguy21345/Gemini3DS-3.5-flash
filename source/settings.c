@@ -83,7 +83,7 @@ void BoolToString(SettingOption *opt, char *buf, size_t n) {
 void ModelToString(SettingOption *opt, char *buf, size_t n) {
     const char *modelNames[] = {
         "Flash 3.5",
-        "Flash Lite 3.5",
+        "Flash Lite 3.1",
         "Flash 2.5",
         "Flash Lite 2.5"
     };
